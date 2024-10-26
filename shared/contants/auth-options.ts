@@ -32,33 +32,28 @@ export const authOptions: AuthOptions = {
             password: { label: 'Password', type: 'password' }
           },
           async authorize(credentials) {
-
             if (!credentials) {
               return null;
             }
-
+        
             const values = {
               email: credentials.email,
             };
-
+        
             const findUser = await prisma.user.findFirst({
               where: values,
             });
-
+        
             if (!findUser) {
               return null;
             }
-
+        
             const isPasswordValid = await compare(credentials.password, findUser.password);
-
+        
             if (!isPasswordValid) {
               return null;
             }
-
-            if (!findUser.verified) {
-              return null;
-            }
-
+        
             return {
               id: findUser.id,
               email: findUser.email,
@@ -66,7 +61,7 @@ export const authOptions: AuthOptions = {
               role: findUser.role,
             };
           }
-        })
+        })        
     ],
     secret: process.env.NEXTAUTH_SECRET,
     session: {
