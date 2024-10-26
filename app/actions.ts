@@ -108,8 +108,8 @@ export async function createOrder(data: CheckoutFormValues) {
           paymentUrl,
         }),
       );
-  
 
+      return paymentUrl;
     } catch (err) {
       console.log('[CreateOrder] Server error', err);
     }

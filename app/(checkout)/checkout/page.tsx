@@ -14,7 +14,7 @@ import toast from "react-hot-toast";
 import { useSession } from "next-auth/react";
 import { Api } from "@/shared/services/api-client";
 
-export default function Page() {
+export default function CheckoutPage() {
     const [ submitting, setSubmitting] = React.useState(false)
     const { totalAmount, updateItemQuantity, items, removeCartItem, loading } = useCart();
 
@@ -49,25 +49,26 @@ export default function Page() {
 
     const onSubmit = async (data: CheckoutFormValues) => {
         try {
-            setSubmitting(true)
-            const url = await createOrder(data);
-
-            toast.error("Заказ успешно оформлен! Переход на оплату...", {
-                icon: '✅'
-            })
-
-            if (url) {
-                location.href = url
-            }
+          setSubmitting(true);
+    
+          const url = await createOrder(data);
+    
+          toast.error('Заказ успешно оформлен! 📝 Переход на оплату... ', {
+            icon: '✅',
+          });
+    
+          if (url) {
+            location.href = url;
+          }
 
         } catch (err) {
-            console.log(err);
-            setSubmitting(false)
-            toast.error('Не удалось создать заказ', {
-                icon: '❌'
-            })
+          console.log(err);
+          setSubmitting(false);
+          toast.error('Не удалось создать заказ', {
+            icon: '❌',
+          });
         }
-    }
+      };
 
     const onClickCountButton = (id: number, quantity: number, type: 'plus' | 'minus') => {
         const newQuantity = type === 'plus' ? quantity + 1 : quantity - 1;
